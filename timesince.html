@@ -2,28 +2,23 @@
 	<head>
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 		<script type="text/javascript" src="https://rawgithub.com/timrwood/moment/2.1.0/min/moment.min.js"></script>
+		<script type="text/javascript" src="http://stevenlevithan.com/demo/parseuri/js/assets/parseuri.js"></script>
 		<script type="text/javascript">
 			var countFrom = new Date().toUTCString(); // http://www.w3schools.com/jsref/jsref_parse.asp
-			if (getParameterByName('start')) {
-				countFrom = getParameterByName('start');
-			}
 			
 			$(document).ready(function() {
-				window.setInterval(updateDays, 1000);
-				if (getParameterByName('suffix')) {
-					$("#suffix").text(getParameterByName('suffix'));
+				if (parameter('start')) {
+					countFrom = parameter('start');
+					$("#help").fadeOut('fast');
 				}
-				else {
-					$("#suffix").text("since " + decodeURIComponent(countFrom));
+				$("#suffix").text("since " + countFrom);
+				if (parameter('suffix')) {
+					$("#suffix").text(parameter('suffix'));
+					$("#help").fadeOut('fast');
 				}
-				if (!getParameterByName('suffix') && !getParameterByName('start')) {
-					$("#help").show();
-				}
-				else {
-					$("#help").hide();
-				}
+				$("#toggle-help").click(function() {$("#help").fadeToggle('fast')});
 				updateDays();
-				$("#toggle-help").click(function() {$("#help").toggle()});
+				window.setInterval(updateDays, 1000);
 			});
 			function now() {
 				return moment();
@@ -33,22 +28,16 @@
 				$("#timeSince").text(start.fromNow(true) + " ("+now().diff(start, 'days')+" days / "+now().diff(start, 'seconds') + " seconds)");
 			}
 			
-			function getParameterByName(name)
-			{
-						name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
-						var regexS = "[\\?&]" + name + "=([^&#]*)";
-						var regex = new RegExp(regexS);
-						var results = regex.exec(window.location.href);
-						if(results == null)
-							return "";
-						else
-							return decodeURIComponent(results[1].replace(/\+/g, " "));
+			function parameter(name) {
+				var parameters = parseUri(window.location.href)['queryKey'];
+				if (parameters[name]) return decodeURIComponent(parameters[name]).replace(/\+/g, " ");
 			}
 		</script>
 		<style type="text/css">
 			h1, p, a {font-family: "Helvetica", "Arial", "sans-serif";}
-			#timeSince {color: black;}
 			h1, a#toggle-help {color: grey;}
+			#timeSince {color: black;}
+			#toggle-help {color: grey; position: absolute; right: 0.5em; font-size: 150%; font-weight: bold; text-decoration: none;}
 		</style>
 	</head>
 	<body>
