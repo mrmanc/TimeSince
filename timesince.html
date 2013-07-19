@@ -1,0 +1,62 @@
+<html>
+	<head>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		<script type="text/javascript" src="https://rawgithub.com/timrwood/moment/2.1.0/min/moment.min.js"></script>
+		<script type="text/javascript">
+			var countFrom = new Date().toUTCString(); // http://www.w3schools.com/jsref/jsref_parse.asp
+			if (getParameterByName('start')) {
+				countFrom = getParameterByName('start');
+			}
+			
+			$(document).ready(function() {
+				window.setInterval(updateDays, 1000);
+				if (getParameterByName('suffix')) {
+					$("#suffix").text(getParameterByName('suffix'));
+				}
+				else {
+					$("#suffix").text("since " + decodeURIComponent(countFrom));
+				}
+				if (!getParameterByName('suffix') && !getParameterByName('start')) {
+					$("#help").show();
+				}
+				else {
+					$("#help").hide();
+				}
+				updateDays();
+				$("#toggle-help").click(function() {$("#help").toggle()});
+			});
+			function now() {
+				return moment();
+			}
+			function updateDays() {
+				var start = moment(countFrom);
+				$("#timeSince").text(start.fromNow(true) + " ("+now().diff(start, 'days')+" days / "+now().diff(start, 'seconds') + " seconds)");
+			}
+			
+			function getParameterByName(name)
+			{
+						name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+						var regexS = "[\\?&]" + name + "=([^&#]*)";
+						var regex = new RegExp(regexS);
+						var results = regex.exec(window.location.href);
+						if(results == null)
+							return "";
+						else
+							return decodeURIComponent(results[1].replace(/\+/g, " "));
+			}
+		</script>
+		<style type="text/css">
+			h1, p, a {font-family: "Helvetica", "Arial", "sans-serif";}
+			#timeSince {color: black;}
+			h1, a#toggle-help {color: grey;}
+		</style>
+	</head>
+	<body>
+		<a id="toggle-help" style="position: absolute; right: 0.5em; font-size: 150%;" href="#">?</a>
+		<h1><span id="timeSince"></span> <span id="suffix">since </span>.</h1>
+		<div id="help">
+		<p>Specify the time to start from using the start parameter. Try specifying <a href="?start=2010-01-01">start=2010-01-01</a> or <a href="http://meyerweb.com/eric/tools/dencoder/">urlencode</a> a string parsable by <a href="http://www.w3schools.com/jsref/jsref_parse.asp">Date.parse()</a></p>
+		<p>e.g. March 22, 2013 14:00:00 which encodes to <a href="?start=March%2022%2C%202013%2014%3A00%3A00">March%2022%2C%202013%2014%3A00%3A00</a></p>
+		<p>You can specify different text by supplying a suffix parameter, e.g. <a href="?suffix=since+my+birthday">suffix=since+my+birthday</a></p>
+	</body>
+</html>
