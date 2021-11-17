@@ -4,7 +4,7 @@
 		<script type="text/javascript" src="https://rawgithub.com/timrwood/moment/2.1.0/min/moment.min.js"></script>
 		<script type="text/javascript" src="parseuri.js"></script>
 		<script type="text/javascript">
-			var countFrom = new Date().toUTCString(); // http://www.w3schools.com/jsref/jsref_parse.asp
+			var countFrom = new Date().toUTCString(); // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse
 			
 			$(document).ready(function() {
 				if (parameter('start')) {
@@ -43,11 +43,10 @@
 	<body>
 		<a id="toggle-help" style="position: absolute; right: 0.5em; font-size: 150%; font-weight: bold; text-decoration: none;" href="#">?</a>
 		<h1><span id="timeSince"></span> <span id="suffix">since </span>.</h1>
-		<div id="help">
-		<p>Specify the time to start from using the start parameter. Try specifying <a href="?start=2010-01-01">start=2010-01-01</a> or <a href="http://meyerweb.com/eric/tools/dencoder/">urlencode</a> a string parsable by <a href="http://www.w3schools.com/jsref/jsref_parse.asp">Date.parse()</a></p>
-		<p>e.g. March 22, 2013 14:00:00 which encodes to <a href="?start=March%2022%2C%202013%2014%3A00%3A00">March%2022%2C%202013%2014%3A00%3A00</a></p>
-		<p>You can specify different text by supplying a suffix parameter, e.g. <a href="?suffix=since+my+birthday">suffix=since+my+birthday</a></p>
-		<p>See the <a href="https://github.com/mrmanc/TimeSince">TimeSince on Github</a> for more or to contribute.</p>
-		<p>You can use this page on <a href="https://rawgithub.com/mrmanc/TimeSince/master/timesince.html">this address</a>, but if you are going to generate any level of traffic then copy it somewhere else, like Dropbox.</p>
+		<a id="help">
+			<p>Specify the time to <em>start</em> from using the <code>start</code> parameter. Try specifying <a href="?start=2010-01-01">start=2010-01-01</a> or <a href="http://meyerweb.com/eric/tools/dencoder/">urlencode</a> a string parsable by <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse">Date.parse()</a></p>
+		<p>e.g. <a href="?start=2015-10-21T07:28:00&suffix=since+Marty,+Doc+and+Jennifer+arrived"><code>2015-10-21T07:28:00</code></a></p>
+		<p>You can control the text that appears by supplying a suffix parameter, e.g. <a href="?suffix=since+my+birthday">suffix=since+my+birthday</a></p>
+		<p>See <a href="https://github.com/mrmanc/TimeSince">Github</a> for more or to contribute.</p>
 	</body>
 </html>
